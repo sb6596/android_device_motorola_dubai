@@ -12,4 +12,7 @@
 
     <!-- Doze: does the double tap sensor need a proximity check? -->
     <bool name="doze_double_tap_proximity_check">true</bool>
+
+    <!-- Show battery icon in the QS Panel instead of in the header -->
+    <bool name="config_batteryInQSPanel">false</bool>
 </resources>
