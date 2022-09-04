@@ -25,6 +25,9 @@
 
          Must be overridden in platform specific overlays -->
     <integer-array name="config_autoBrightnessLevels">
+        <item>2</item>
+        <item>4</item>
+        <item>5</item>
         <item>10</item>
         <item>40</item>
         <item>100</item>
@@ -48,14 +51,17 @@
          array. The brightness values must be non-negative and non-decreasing. This must be
          overridden in platform specific overlays -->
     <array name="config_autoBrightnessDisplayValuesNits">
+        <item>2</item>
+        <item>7</item>
         <item>10</item>
-        <item>20</item>
-        <item>80</item>
-        <item>93</item>
-        <item>125</item>
-        <item>161</item>
-        <item>212</item>
-        <item>420</item>
+        <item>12</item>
+        <item>24</item>
+        <item>95</item>
+        <item>111</item>
+        <item>149</item>
+        <item>192</item>
+        <item>252</item>
+        <item>500</item>
     </array>
 
     <!-- An array describing the screen's backlight values corresponding to the brightness
@@ -64,13 +70,16 @@
          This array should be equal in size to config_screenBrightnessBacklight. -->
     <integer-array name="config_screenBrightnessBacklight">
         <item>0</item>
-        <item>8</item>
+        <item>1</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
         <item>12</item>
         <item>48</item>
-        <item>56</item>
-        <item>78</item>
-        <item>99</item>
-        <item>122</item>
+        <item>57</item>
+        <item>76</item>
+        <item>98</item>
+        <item>129</item>
         <item>255</item>
     </integer-array>
 
@@ -83,14 +92,17 @@
          This array should be equal in size to config_screenBrightnessBacklight -->
     <array name="config_screenBrightnessNits">
         <item>0</item>
+        <item>2</item>
+        <item>7</item>
         <item>10</item>
-        <item>20</item>
-        <item>80</item>
-        <item>93</item>
-        <item>125</item>
-        <item>161</item>
-        <item>212</item>
-        <item>420</item>
+        <item>12</item>
+        <item>24</item>
+        <item>95</item>
+        <item>111</item>
+        <item>149</item>
+        <item>192</item>
+        <item>252</item>
+        <item>500</item>
     </array>
 
     <!-- Stability requirements in milliseconds for accepting a new brightness level.  This is used
@@ -98,8 +110,8 @@
          when adapting to brighter or darker environments.  This parameter controls how quickly
          brightness changes occur in response to an observed change in light level that exceeds the
          hysteresis threshold. -->
-    <integer name="config_autoBrightnessBrighteningLightDebounce">2000</integer>
-    <integer name="config_autoBrightnessDarkeningLightDebounce">8000</integer>
+    <integer name="config_autoBrightnessBrighteningLightDebounce">500</integer>
+    <integer name="config_autoBrightnessDarkeningLightDebounce">500</integer>
 
     <!-- The bounding path of the cutout region of the main built-in display.
          Must either be empty if there is no cutout region, or a string that is parsable by
@@ -122,14 +134,7 @@
 
          @see https://www.w3.org/TR/SVG/paths.html#PathData
          -->
-    <string translatable="false" name="config_mainBuiltInDisplayCutout">
-        M 0,0
-        h -35
-		v 90
-		h 70
-		v -90
-		Z
-	</string>
+    <string translatable="false" name="config_mainBuiltInDisplayCutout">M -35,0 L 35,0 L 35,105 L -35,105 Z</string>
 
 	<!-- Indicate whether to allow the device to suspend when the screen is off
          due to the proximity sensor.  This resource should only be set to true
@@ -139,7 +144,7 @@
     <bool name="config_suspendWhenScreenOffDueToProximity">true</bool>
 
     <!-- Whether device supports double tap to wake -->
-    <bool name="config_supportDoubleTapWake">true</bool>
+    <bool name="config_supportDoubleTapWake">false</bool>
 
     <!-- Power Management: Specifies whether to decouple the auto-suspend state of the
          device from the display on/off state.
@@ -183,49 +188,43 @@
     <!-- Screen brightness used to dim the screen when the user activity
          timeout expires.  May be less than the minimum allowed brightness setting
          that can be set by the user. -->
-    <integer name="config_screenBrightnessDim">10</integer>
+    <integer name="config_screenBrightnessDim">2</integer>
 
     <!-- Minimum screen brightness setting allowed by the power manager.
          The user is forbidden from setting the brightness below this level. -->
-    <integer name="config_screenBrightnessSettingMinimum">10</integer>
+    <integer name="config_screenBrightnessSettingMinimum">2</integer>
 
     <!-- Vibrator pattern for feedback about a long screen/key press -->
     <integer-array name="config_longPressVibePattern">
         <item>0</item>
-        <item>1</item>
-        <item>20</item>
-        <item>21</item>
+        <item>67</item>
     </integer-array>
 
     <!-- Vibrator pattern for feedback about touching a virtual key -->
     <integer-array name="config_virtualKeyVibePattern">
         <item>0</item>
-        <item>10</item>
-        <item>20</item>
-        <item>30</item>
+        <item>67</item>
     </integer-array>
 
     <!-- Vibrator pattern for a very short but reliable vibration for soft keyboard tap -->
     <integer-array name="config_keyboardTapVibePattern">
-        <item>40</item>
+        <item>0</item>
+        <item>30</item>
     </integer-array>
 
     <!-- Vibrator pattern for feedback about booting with safe mode enabled -->
     <integer-array name="config_safeModeEnabledVibePattern">
         <item>0</item>
-        <item>1</item>
-        <item>20</item>
-        <item>21</item>
-        <item>500</item>
-        <item>600</item>
+        <item>0</item>
+        <item>94</item>
     </integer-array>
 
     <!-- Vibrator pattern for feedback about hitting a scroll barrier -->
     <integer-array name="config_scrollBarrierVibePattern">
         <item>0</item>
         <item>15</item>
-        <item>10</item>
-        <item>10</item>
+        <item>30</item>
+        <item>15</item>
     </integer-array>
 
     <!-- True if the device supports system navigation keys. -->
@@ -264,11 +263,15 @@
          config_defaultPeakRefreshRate will act as the default frame rate. -->
     <integer name="config_defaultRefreshRate">0</integer>
 
+    <!-- Default refresh rate in the zone defined by brightness and ambient thresholds.
+         If non-positive, then the refresh rate is unchanged even if thresholds are configured. -->
+    <integer name="config_defaultRefreshRateInZone">90</integer>
+
     <!-- The default peak refresh rate for a given device. Change this value if you want to prevent
          the framework from using higher refresh rates, even if display modes with higher refresh
          rates are available from hardware composer. Only has an effect if the value is
          non-zero. -->
-    <integer name="config_defaultPeakRefreshRate">60</integer>
+    <integer name="config_defaultPeakRefreshRate">120</integer>
 
     <!-- MMS user agent string -->
     <string name="config_mms_user_agent" translatable="false">motorolaedge30</string>
@@ -280,6 +283,5 @@
         <item>0</item> <!-- COLOR_MODE_NATURAL -->     <!-- This uses colorimetric render intents-->
         <item>1</item> <!-- COLOR_MODE_BOOSTED -->     <!-- This applies a 10% boost using the PCC-->
         <item>2</item> <!-- COLOR_MODE_SATURATED -->
-        <item>3</item> <!-- COLOR_MODE_AUTOMATIC -->   <!-- This uses enhanced render intents-->
     </integer-array>
 </resources>
