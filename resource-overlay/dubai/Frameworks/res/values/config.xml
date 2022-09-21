@@ -308,4 +308,7 @@
         <item>1</item> <!-- COLOR_MODE_BOOSTED -->     <!-- This applies a 10% boost using the PCC-->
         <item>2</item> <!-- COLOR_MODE_SATURATED -->
     </integer-array>
+
+    <!-- How long it takes for the HW to start illuminating after the illumination is requested. -->
+    <integer name="config_udfps_illumination_transition_ms">0</integer>
 </resources>
