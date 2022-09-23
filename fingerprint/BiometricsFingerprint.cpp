@@ -27,6 +27,15 @@
 #include <unistd.h>
 #include <thread>
 
+#include <fcntl.h>
+#include <poll.h>
+#include <sys/stat.h>
+
+#define NOTIFY_FINGER_UP IMotFodEventType::FINGER_UP
+#define NOTIFY_FINGER_DOWN IMotFodEventType::FINGER_DOWN
+
+#define FOD_UI_PATH "/sys/devices/platform/soc/soc:qcom,dsi-display-primary/fod_ui"
+
 namespace android {
 namespace hardware {
 namespace biometrics {
@@ -34,33 +43,52 @@ namespace fingerprint {
 namespace V2_3 {
 namespace implementation {
 
-template <typename T>
-static void set(const std::string& path, const T& value) {
-    std::ofstream file(path);
-    file << value;
-    LOG(INFO) << "wrote path: " << path << ", value: " << value << "\n";
-}
+static bool readBool(int fd) {
+    char c;
+    int rc;
 
-template <typename T>
-static T get(const std::string& path, const T& def) {
-    std::ifstream file(path);
-    T result;
+    rc = lseek(fd, 0, SEEK_SET);
+    if (rc) {
+        LOG(ERROR) << "failed to seek fd, err: " << rc;
+        return false;
+    }
 
-    file >> result;
-    LOG(INFO) << "read path: " << path << ", value: " << result << "\n";
-    return file.fail() ? def : result;
-}
+    rc = read(fd, &c, sizeof(char));
+    if (rc != 1) {
+        LOG(ERROR) << "failed to read bool from fd, err: " << rc;
+        return false;
+    }
 
-static std::string get(const std::string& path, const std::string& def) {
-    std::ifstream file(path);
-    std::string result;
-    file >> result;
-    LOG(INFO) << "read path: " << path << ", value: " << result << "\n";
-    return file.fail() ? def : result;
+    return c != '0';
 }
 
 BiometricsFingerprint::BiometricsFingerprint() {
     mBiometricsFingerprint = android::hardware::biometrics::fingerprint::V2_1::IBiometricsFingerprint::getService();
+    mMotoFingerprint = IMotoFingerPrint::getService();
+
+    std::thread([this]() {
+        int fd = open(FOD_UI_PATH, O_RDONLY);
+        if (fd < 0) {
+            LOG(ERROR) << "failed to open fd, err: " << fd;
+            return;
+        }
+
+        struct pollfd fodUiPoll = {
+            .fd = fd,
+            .events = POLLERR | POLLPRI,
+            .revents = 0,
+        };
+
+        while (true) {
+            int rc = poll(&fodUiPoll, 1, -1);
+            if (rc < 0) {
+                LOG(ERROR) << "failed to poll fd, err: " << rc;
+                continue;
+            }
+            mMotoFingerprint->sendFodEvent(readBool(fd) ? NOTIFY_FINGER_DOWN : NOTIFY_FINGER_UP , {},
+                [](IMotFodEventResult, const hidl_vec<signed char>&) {});
+        }
+    }).detach();
 }
 
 Return<uint64_t> BiometricsFingerprint::setNotify(
