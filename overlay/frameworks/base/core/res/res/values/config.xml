@@ -213,7 +213,7 @@
     <integer-array name="config_udfps_sensor_props" translatable="false" >
         <item>540</item> <!-- sensorLocationX -->
         <item>2164</item> <!-- sensorLocationY -->
-        <item>91</item> <!-- sensorRadius -->
+        <item>98</item> <!-- sensorRadius -->
     </integer-array>
 
     <!-- Screen brightness used to dim the screen when the user activity
