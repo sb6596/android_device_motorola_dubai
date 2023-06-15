@@ -36,6 +36,9 @@ PRODUCT_SHIPPING_API_LEVEL := 31
 $(call inherit-product, device/motorola/sm7325-common/sm7325.mk)
 
 # Overlay
+PRODUCT_PACKAGES += \
+    NfcResDubai
+
 DEVICE_PACKAGE_OVERLAYS += \
     $(LOCAL_PATH)/overlay \
     $(LOCAL_PATH)/overlay-arrow
